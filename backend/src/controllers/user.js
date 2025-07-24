@@ -49,7 +49,7 @@ const feed = async (req, res) => {
     try {
 
         const page = parseInt(req.query.page) || 1;
-        let limit = parseInt(req.query.limit) || 1;
+        let limit = parseInt(req.query.limit) || 10;
         limit = limit > 50 ? 50 : limit;
         const skip = (page - 1) * limit;
 
@@ -73,7 +73,7 @@ const feed = async (req, res) => {
             $and: [
                 { _id: { $nin: Array.from(uniqueIds) } },
                 { _id: { $ne: user._id } }]
-        }).select('firstName', 'lastName', 'age', 'gender', 'skills', 'about', 'photoUrl')
+        }).select('firstName lastName age gender skills about photoUrl')
             .skip(skip)
             .limit(limit);
 

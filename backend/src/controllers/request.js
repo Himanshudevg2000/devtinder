@@ -58,7 +58,7 @@ const reviewConnectionRequest = async (req, res) => {
         });
 
         if (!checkAlreadyExist) {
-            return res.status(400).send({ message: "Request not found", data: null });
+            return res.status(400).send({ message: "Connection Request not found", data: null });
         }
 
         checkAlreadyExist.status = status;

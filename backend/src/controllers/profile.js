@@ -4,8 +4,13 @@ const bcrypt = require('bcrypt');
 
 const viewProfile =  async (req, res) => {
     try {
-        const user = req.user;
-        res.send(user);
+        let  user = req.user;
+        let userObj = user.toObject();
+        delete userObj.password;
+        delete userObj.createdAt;
+        delete userObj.updatedAt;
+
+        res.send({message: "Got data successfully", data: userObj});
     } catch (error) {
         res.send(error.message);
     }
@@ -24,8 +29,13 @@ const editProfile = async (req, res) => {
         Object.keys(req.body).forEach((key) => (user[key] = req.body[key]));
 
         await user.save()
+        let userObj = user.toObject();
+        delete userObj.password;
+        delete userObj.createdAt;
+        delete userObj.updatedAt;
+        delete userObj._v;
 
-        res.send({ message: `${user.firstName}, Your Profile Updated Successfully`, data: null });
+        res.send({ message: `${user.firstName}, Your Profile Updated Successfully`, data: userObj });
     } catch (error) {
         res.send(error.message);
     }

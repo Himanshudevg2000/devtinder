@@ -15,9 +15,19 @@ const signup = async (req, res) => {
 
         await user.save();
 
-        res.send({ data: {}, message: "user created successfully" });
+        const token = await user.getJWT();
+
+        res.cookie('token', token);
+
+        const data = user.toObject();
+
+        delete data.password;
+        delete data.createdAt;
+        delete data.updatedAt;
+
+        res.send({ data: data, message: "user created successfully" });
     } catch (error) {
-        res.send({ data: null, message: error.message });
+        res.status(400).send({ data: null, message: error.message });
     }
 }
 
@@ -36,15 +46,27 @@ const login = async (req, res) => {
         if (!isPasswordValid) throw new Error("Password not valid");
 
         const token = await user.getJWT();
+
         res.cookie("token", token);
-        res.send({ data: token, message: "Login successFull" });
+
+        const userObj = user.toObject();
+
+        delete userObj.password;
+        delete userObj.createdAt;
+        delete userObj.updatedAt;
+
+        res.send({ data: userObj, message: "Login successFull" });
+
     } catch (error) {
-        res.send({ data: null, message: error.message });
+        res.status(400).send({ data: null, message: error.message });
     }
 }
 
 const logout = (req, res) => {
-    res.cookie("token", '', { expiresIn: Date(Date.now()) });
+    // res.cookie("token", '', { expiresIn: Date(Date.now()) });
+    res.clearCookie("token", {
+        httpOnly: true,
+    });
     res.send({ message: "Logout successfull", data: null });
 }
 

@@ -28,12 +28,7 @@ const userSchema = new mongoose.Schema({
         minLength: 18
     },
     gender: {
-        type: String,
-        validate: function (err, value) {
-            if (!['male', 'female', 'others'].includes(value)) {
-                throw new Error(err);
-            }
-        }
+        type: String
     },
     about: {
         type: String

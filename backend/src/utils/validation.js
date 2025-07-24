@@ -16,10 +16,10 @@ const userSignUpValidation = (req) => {
 }
 
 const validateProfileValidation = (req) => {
-    const { age, gender, skills, profileUrl, about } = req;
+    const { age, gender, skills, photoUrl, about } = req;
     const errors = {};
 
-    const allowedFields = ['age', 'gender', 'skills', 'profileUrl', 'about'];
+    const allowedFields = ['age', 'gender', 'skills', 'photoUrl', 'about', "firstName", "lastName"];
     const extraFields = Object.keys(req).filter(key => !allowedFields.includes(key));
 
     if (extraFields.length > 0) {
@@ -49,8 +49,8 @@ const validateProfileValidation = (req) => {
     }
 
     // Validate profileUrl (optional)
-    if (profileUrl !== undefined && !validator.isURL(profileUrl)) {
-        errors.profileUrl = 'Profile URL must be a valid URL';
+    if (photoUrl !== undefined && !validator.isURL(photoUrl)) {
+        errors.photoUrl = 'Profile URL must be a valid URL';
     }
 
     // Validate about (optional)
