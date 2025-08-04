@@ -30,7 +30,6 @@ const Login = () => {
         { withCredentials: true }
       );
 
-      console.log(data);
       dispatch(addUser(data.data));
       return navigate("/feed");
     } catch (error) {
@@ -54,7 +53,6 @@ const Login = () => {
       );
       dispatch(addUser(data.data.data));
       navigate("/profile");
-      console.log("data: ", data);
     } catch (error) {
       console.log("error: ", error);
       setError(error?.response?.data.message || "Something went wrong");
